@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.bgaje.rockpaperscissors.MainActivity">
+
+    <Button
+        android:id="@+id/startButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="13dp"
+        android:text="start game"
+        android:onClick="startGame"/>
+
+    <Button
+        android:id="@+id/rockButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/startButton"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="59dp"
+        android:layout_marginStart="19dp"
+        android:text="rock"
+        android:onClick="playerRock"/>
+
+    <Button
+        android:id="@+id/paperButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/rockButton"
+        android:layout_alignEnd="@+id/startButton"
+        android:text="paper"
+        android:onClick="playerPaper"/>
+
+    <Button
+        android:id="@+id/scissorsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/paperButton"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="17dp"
+        android:text="scissors"
+        android:onClick="playerScissors"/>
+
+    <TextView
+        android:id="@+id/scoreTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Score:" />
+
+
+    <ImageView
+        android:id="@+id/playerImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/rockButton"
+        android:layout_alignEnd="@+id/rockButton"
+        android:layout_marginBottom="135dp"
+        app:srcCompat="@android:color/background_light" />
+
+    <ImageView
+        android:id="@+id/computerImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/scissorsButton"
+        android:layout_alignStart="@+id/scissorsButton"
+        android:layout_marginBottom="113dp"
+        app:srcCompat="@android:color/background_light" />
+
+    <TextView
+        android:id="@+id/resultTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/paperButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="13dp"
+        android:text="" />
+</RelativeLayout>
