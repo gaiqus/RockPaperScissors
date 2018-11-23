@@ -7,20 +7,38 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.Random;
+
 public class MainActivity extends AppCompatActivity {
 
 
-//    Button startGameButton = findViewById(R.id.startButton);
-
     int playersScore;
     int computerScore;
-//    0 = rock
-//      1 = paper
-//      2 = scissors
-    int computerChoice;
-    int playerChoice;
+
+    ImageView playerImageView;
+    TextView resultTextView;
+    Button rockButton;
+    Button paperButton;
+    Button scissorsButton;
+
+    Choice playerChoice;
+    Choice computerChoice;
 
 
+    public enum Choice{
+        ROCK,
+        PAPER,
+        SCISSORS;
+
+        /**
+         * Pick a random value of the Choice enum.
+         * @return a random Choice.
+         */
+        public static Choice getRandomChoice() {
+            Random random = new Random();
+            return values()[random.nextInt(values().length)];
+        }
+    }
 
 
     @Override
@@ -28,9 +46,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button rockButton = findViewById(R.id.rockButton);
-        Button paperButton = findViewById(R.id.paperButton);
-        Button scissorsButton = findViewById(R.id.scissorsButton);
+        rockButton = findViewById(R.id.rockButton);
+        paperButton = findViewById(R.id.paperButton);
+        scissorsButton = findViewById(R.id.scissorsButton);
 
         rockButton.setClickable(false);
         paperButton.setClickable(false);
@@ -40,11 +58,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void startGame(View view) {
 
-        TextView resultTextView = findViewById(R.id.resultTextView);
+        resultTextView = findViewById(R.id.resultTextView);
 
-        Button rockButton = findViewById(R.id.rockButton);
-        Button paperButton = findViewById(R.id.paperButton);
-        Button scissorsButton = findViewById(R.id.scissorsButton);
+        rockButton = findViewById(R.id.rockButton);
+        paperButton = findViewById(R.id.paperButton);
+        scissorsButton = findViewById(R.id.scissorsButton);
 
         rockButton.setClickable(true);
         paperButton.setClickable(true);
@@ -58,20 +76,23 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public int computerMove(){
+    public Choice computerMove(){
 
         ImageView computerImageView = findViewById(R.id.computerImageView);
-        computerChoice = (int) (Math.random() * 3);
 
+        computerChoice = Choice.getRandomChoice();
+        switch (computerChoice){
 
-        if(computerChoice == 0){
-            computerImageView.setImageResource(R.drawable.rock);
-        }
-        else if(computerChoice == 1){
-            computerImageView.setImageResource(R.drawable.paper);
-        }
-        else if(computerChoice == 2){
-            computerImageView.setImageResource(R.drawable.scissors);
+            case ROCK:
+                computerImageView.setImageResource(R.drawable.rock);
+                break;
+            case PAPER:
+                computerImageView.setImageResource(R.drawable.paper);
+                break;
+            case SCISSORS:
+                computerImageView.setImageResource(R.drawable.scissors);
+                break;
+
         }
 
         return computerChoice;
@@ -84,56 +105,57 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void compare(){
-        TextView resultTextView = findViewById(R.id.resultTextView);
-
+        resultTextView = findViewById(R.id.resultTextView);
 
         if(computerChoice == playerChoice){
 
             resultTextView.setText("Draw");
         }
-        else if((computerChoice == 0 && playerChoice == 1) || (computerChoice == 1 && playerChoice == 2) || (computerChoice == 2 && playerChoice == 0)) {
+        else if((computerChoice == Choice.ROCK && playerChoice == Choice.PAPER) || (computerChoice == Choice.PAPER && playerChoice == Choice.SCISSORS) || (computerChoice == Choice.SCISSORS && playerChoice == Choice.ROCK)) {
             resultTextView.setText("You win");
             playersScore++;
             actualizeScore();}
-        else if((computerChoice == 0 && playerChoice == 2) || (computerChoice == 1 && playerChoice == 0) || (computerChoice == 2 && playerChoice == 1)) {
+        else if((computerChoice == Choice.ROCK && playerChoice == Choice.SCISSORS) || (computerChoice == Choice.PAPER && playerChoice == Choice.ROCK) || (computerChoice == Choice.SCISSORS && playerChoice == Choice.PAPER)) {
             resultTextView.setText("You lost");
             computerScore++;
             actualizeScore();}
     }
 
-    public int playerRock(View view) {
+    public Choice playerMove(View view) {
 
-        playerChoice = 0;
-        ImageView playerImageView = findViewById(R.id.playerImageView);
-        playerImageView.setImageResource(R.drawable.rock);
+
+        switch(view.getId())
+        {
+            case R.id.rockButton:
+                playerChoice = Choice.ROCK;
+
+                playerImageView = findViewById(R.id.playerImageView);
+                playerImageView.setImageResource(R.drawable.rock);
+
+                break;
+
+            case R.id.paperButton:
+                playerChoice = Choice.PAPER;
+
+                playerImageView = findViewById(R.id.playerImageView);
+                playerImageView.setImageResource(R.drawable.paper);
+
+                break;
+
+            case R.id.scissorsButton:
+                playerChoice = Choice.SCISSORS;
+
+                playerImageView = findViewById(R.id.playerImageView);
+                playerImageView.setImageResource(R.drawable.scissors);
+
+                break;
+
+        }
+
         computerMove();
         compare();
 
-
-
-        return playerChoice;
-
-    }
-
-    public int playerPaper(View view) {
-
-        playerChoice = 1;
-        ImageView playerImageView = findViewById(R.id.playerImageView);
-        playerImageView.setImageResource(R.drawable.paper);
-        computerMove();
-        compare();
-
         return playerChoice;
     }
 
-    public int playerScissors(View view) {
-
-        playerChoice = 2;
-        ImageView playerImageView = findViewById(R.id.playerImageView);
-        playerImageView.setImageResource(R.drawable.scissors);
-        computerMove();
-        compare();
-
-        return playerChoice;
-    }
 }

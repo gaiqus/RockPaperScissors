@@ -25,7 +25,7 @@
         android:layout_marginBottom="59dp"
         android:layout_marginStart="19dp"
         android:text="rock"
-        android:onClick="playerRock"/>
+        android:onClick="playerMove"/>
 
     <Button
         android:id="@+id/paperButton"
@@ -34,7 +34,8 @@
         android:layout_alignBottom="@+id/rockButton"
         android:layout_alignEnd="@+id/startButton"
         android:text="paper"
-        android:onClick="playerPaper"/>
+        android:onClick="playerMove"
+        />
 
     <Button
         android:id="@+id/scissorsButton"
@@ -44,7 +45,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="17dp"
         android:text="scissors"
-        android:onClick="playerScissors"/>
+        android:onClick="playerMove"/>
 
     <TextView
         android:id="@+id/scoreTextView"
