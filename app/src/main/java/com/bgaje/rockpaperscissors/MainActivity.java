@@ -11,25 +11,25 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-
     int playersScore;
     int computerScore;
+    int choiceResource;
 
     ImageView playerImageView;
     TextView resultTextView;
     Button rockButton;
     Button paperButton;
     Button scissorsButton;
+    ImageView computerImageView;
+    TextView scoreTextView;
 
     Choice playerChoice;
     Choice computerChoice;
 
-
-    public enum Choice{
+    public enum Choice {
         ROCK,
         PAPER,
         SCISSORS;
-
         /**
          * Pick a random value of the Choice enum.
          * @return a random Choice.
@@ -40,30 +40,42 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public int getChoiceResource(Choice choice) {
+
+        if (choice == Choice.ROCK) {
+            choiceResource = R.drawable.rock;
+        } else if (choice == Choice.PAPER) {
+            choiceResource = R.drawable.paper;
+        } else if (choice == Choice.SCISSORS) {
+            choiceResource = R.drawable.scissors;
+        }
+        return choiceResource;
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Initialize all the views
         rockButton = findViewById(R.id.rockButton);
         paperButton = findViewById(R.id.paperButton);
         scissorsButton = findViewById(R.id.scissorsButton);
+        resultTextView = findViewById(R.id.resultTextView);
+        computerImageView = findViewById(R.id.computerImageView);
+        scoreTextView = findViewById(R.id.scoreTextView);
+        playerImageView = findViewById(R.id.playerImageView);
 
+        //Set all the choice buttons not clickable TODO - make all player choice buttons not clickable in xml (simple command in xml not working)
         rockButton.setClickable(false);
         paperButton.setClickable(false);
         scissorsButton.setClickable(false);
-
     }
 
     public void startGame(View view) {
 
-        resultTextView = findViewById(R.id.resultTextView);
-
-        rockButton = findViewById(R.id.rockButton);
-        paperButton = findViewById(R.id.paperButton);
-        scissorsButton = findViewById(R.id.scissorsButton);
-
+        //Set all the choice buttons clickable
         rockButton.setClickable(true);
         paperButton.setClickable(true);
         scissorsButton.setClickable(true);
@@ -73,85 +85,60 @@ public class MainActivity extends AppCompatActivity {
 
         actualizeScore();
         resultTextView.setText("Let's play!");
-
     }
 
-    public Choice computerMove(){
-
-        ImageView computerImageView = findViewById(R.id.computerImageView);
+    public Choice computerMove() {
 
         computerChoice = Choice.getRandomChoice();
-        switch (computerChoice){
-
-            case ROCK:
-                computerImageView.setImageResource(R.drawable.rock);
-                break;
-            case PAPER:
-                computerImageView.setImageResource(R.drawable.paper);
-                break;
-            case SCISSORS:
-                computerImageView.setImageResource(R.drawable.scissors);
-                break;
-
-        }
+        computerImageView.setImageResource(getChoiceResource(computerChoice));
 
         return computerChoice;
-
     }
 
-    public void actualizeScore(){
-        TextView scoreTextView = findViewById(R.id.scoreTextView);
-        scoreTextView.setText("Score: " + playersScore + "/" + computerScore);}
+    public void actualizeScore() {
 
+        scoreTextView.setText("Score: " + playersScore + "/" + computerScore);
+    }
 
-    public void compare(){
-        resultTextView = findViewById(R.id.resultTextView);
+    public void compare() {
 
-        if(computerChoice == playerChoice){
+        if (computerChoice == playerChoice) {
 
             resultTextView.setText("Draw");
+        } else if ((computerChoice == Choice.ROCK && playerChoice == Choice.PAPER) || (computerChoice == Choice.PAPER && playerChoice == Choice.SCISSORS) || (computerChoice == Choice.SCISSORS && playerChoice == Choice.ROCK)) {
+            playerWins();
+        } else if ((computerChoice == Choice.ROCK && playerChoice == Choice.SCISSORS) || (computerChoice == Choice.PAPER && playerChoice == Choice.ROCK) || (computerChoice == Choice.SCISSORS && playerChoice == Choice.PAPER)) {
+            computerWins();
         }
-        else if((computerChoice == Choice.ROCK && playerChoice == Choice.PAPER) || (computerChoice == Choice.PAPER && playerChoice == Choice.SCISSORS) || (computerChoice == Choice.SCISSORS && playerChoice == Choice.ROCK)) {
-            resultTextView.setText("You win");
-            playersScore++;
-            actualizeScore();}
-        else if((computerChoice == Choice.ROCK && playerChoice == Choice.SCISSORS) || (computerChoice == Choice.PAPER && playerChoice == Choice.ROCK) || (computerChoice == Choice.SCISSORS && playerChoice == Choice.PAPER)) {
-            resultTextView.setText("You lost");
-            computerScore++;
-            actualizeScore();}
+    }
+
+    public void playerWins() {
+        resultTextView.setText("You win");
+        playersScore++;
+        actualizeScore();
+    }
+
+    public void computerWins() {
+        resultTextView.setText("You lost");
+        computerScore++;
+        actualizeScore();
     }
 
     public Choice playerMove(View view) {
 
-
-        switch(view.getId())
-        {
+        switch (view.getId()) {
             case R.id.rockButton:
                 playerChoice = Choice.ROCK;
-
-                playerImageView = findViewById(R.id.playerImageView);
-                playerImageView.setImageResource(R.drawable.rock);
-
                 break;
-
             case R.id.paperButton:
                 playerChoice = Choice.PAPER;
-
-                playerImageView = findViewById(R.id.playerImageView);
-                playerImageView.setImageResource(R.drawable.paper);
-
                 break;
-
             case R.id.scissorsButton:
                 playerChoice = Choice.SCISSORS;
-
-                playerImageView = findViewById(R.id.playerImageView);
-                playerImageView.setImageResource(R.drawable.scissors);
-
                 break;
-
         }
 
+        playerImageView.setImageResource(getChoiceResource(playerChoice));
         computerMove();
         compare();
 
