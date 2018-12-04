@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public int getChoiceResource(Choice choice) {
-
         if (choice == Choice.ROCK) {
             choiceResource = R.drawable.rock;
         } else if (choice == Choice.PAPER) {
@@ -74,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startGame(View view) {
-
         //Set all the choice buttons clickable
         rockButton.setClickable(true);
         paperButton.setClickable(true);
@@ -88,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public Choice computerMove() {
-
         computerChoice = Choice.getRandomChoice();
         computerImageView.setImageResource(getChoiceResource(computerChoice));
 
@@ -96,14 +93,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void actualizeScore() {
-
         scoreTextView.setText("Score: " + playersScore + "/" + computerScore);
     }
 
     public void compare() {
-
         if (computerChoice == playerChoice) {
-
             resultTextView.setText("Draw");
         } else if ((computerChoice == Choice.ROCK && playerChoice == Choice.PAPER) || (computerChoice == Choice.PAPER && playerChoice == Choice.SCISSORS) || (computerChoice == Choice.SCISSORS && playerChoice == Choice.ROCK)) {
             playerWins();
@@ -125,7 +119,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public Choice playerMove(View view) {
-
         switch (view.getId()) {
             case R.id.rockButton:
                 playerChoice = Choice.ROCK;
@@ -137,7 +130,6 @@ public class MainActivity extends AppCompatActivity {
                 playerChoice = Choice.SCISSORS;
                 break;
         }
-
         playerImageView.setImageResource(getChoiceResource(playerChoice));
         computerMove();
         compare();
